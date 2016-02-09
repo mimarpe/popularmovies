@@ -13,6 +13,12 @@ import com.movies.mmmartin.popularmovies.sync.PopularMoviesSyncAdapter;
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.Callback {
 
+    private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
+
+    private boolean mTwoPane;
+    private String mLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +32,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                         .enableWebKitInspector(
                                 Stetho.defaultInspectorModulesProvider(this))
                         .build());
-
-//        MainActivityFragment popularMoviesFragment =  ((MainActivityFragment)getSupportFragmentManager()
-//                .findFragmentById(R.id.fragment));
 
         PopularMoviesSyncAdapter.initializeSyncAdapter(this);
     }
@@ -77,4 +80,24 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 //            startActivity(intent);
 //        }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String location = Utility.getOrderPreference( this );
+        // update the location in our second pane using the fragment manager
+        if (location != null && !location.equals(mLocation)) {
+            MainActivityFragment ff = (MainActivityFragment)getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment);
+            if ( null != ff ) {
+                ff.onPreferenceChanged();
+            }
+//            DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+//            if ( null != df ) {
+//                df.onLocationChanged(location);
+//            }
+            mLocation = location;
+        }
+    }
+
 }

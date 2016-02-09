@@ -14,5 +14,5 @@
     <string name="content_authority" translatable="false">com.movies.mmmartin.popularmovies.app</string>
     <string name="sync_account_type">popularmovies.mmmartin.com</string>
 
-    <string name="api_key">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
+    <string name="api_key">08f23ce3a965adda70feb8e74f04629c</string>
 </resources>

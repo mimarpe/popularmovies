@@ -29,8 +29,8 @@ public class MoviesDbHelper extends SQLiteOpenHelper {
                 MovieEntry.COLUMN_POSTER_PATH + " TEXT NOT NULL," +
                 MovieEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL, " +
                 MovieEntry.COLUMN_POPULARITY + " REAL NOT NULL, " +
-                MovieEntry.COLUMN_FAVORITE + " INTEGER NOT NULL DEFAULT 0 " +
-                ");";
+                MovieEntry.COLUMN_FAVORITE + " INTEGER NOT NULL DEFAULT 0," +
+                " UNIQUE (" + MovieEntry.COLUMN_MOVIE_ID +") ON CONFLICT REPLACE);";
 
         final String SQL_CREATE_REVIEW_TABLE = "CREATE TABLE " + ReviewEntry.TABLE_NAME + " (" +
                 ReviewEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +

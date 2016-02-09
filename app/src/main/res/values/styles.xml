@@ -9,9 +9,4 @@
     <style name="SettingsTheme" parent="AppTheme">
     </style>
 
-    <style name="PosterGridLayout">
-        <item name="android:drawSelectorOnTop">true</item>
-        <item name="android:listSelector">@drawable/postergrid_list_selector</item>
-    </style>
-
 </resources>

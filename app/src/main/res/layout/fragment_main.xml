@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gridView"
-    style="@style/PosterGridLayout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:columnWidth="0dp"
-    android:horizontalSpacing="1dp"
-    android:numColumns="2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnWidth="@dimen/poster_width"
+    android:numColumns="auto_fit"
     android:stretchMode="columnWidth"
-    android:verticalSpacing="1dp" >
-
+    android:padding="@dimen/image_thumbnail_spacing"
+    android:horizontalSpacing="@dimen/image_thumbnail_spacing"
+    android:verticalSpacing="@dimen/image_thumbnail_spacing"
+    android:drawSelectorOnTop="true" >
 </GridView>

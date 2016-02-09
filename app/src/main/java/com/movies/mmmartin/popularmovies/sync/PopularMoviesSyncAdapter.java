@@ -55,27 +55,6 @@ public class PopularMoviesSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private static final int MOVIES_NOTIFICATION_ID = 3004;
 
-    private static final String[] MOVIE_PROJECTION = {
-            MoviesContract.MovieEntry._ID,
-            MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE,
-            MoviesContract.MovieEntry.COLUMN_OVERVIEW,
-            MoviesContract.MovieEntry.COLUMN_RELEASE_DATE,
-            MoviesContract.MovieEntry.COLUMN_POSTER_PATH,
-            MoviesContract.MovieEntry.COLUMN_VOTE_AVERAGE,
-            MoviesContract.MovieEntry.COLUMN_POPULARITY,
-            MoviesContract.MovieEntry.COLUMN_FAVORITE
-};
-
-    // these indices must match the projection
-    private static final int INDEX_MOVIE_ID         = 0;
-    private static final int INDEX_ORIGINAL_TITLE   = 1;
-    private static final int INDEX_OVERVIEW         = 2;
-    private static final int INDEX_RELEASE_DATE     = 3;
-    private static final int INDEX_POSTER_PATH      = 4;
-    private static final int INDEX_VOTE_AVERAGE     = 5;
-    private static final int INDEX_POPULARITY       = 6;
-    private static final int INDEX_FAVORITE         = 7;
-
     public PopularMoviesSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
