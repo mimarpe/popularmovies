@@ -1,0 +1,99 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_gravity="left"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="0dp">
+
+        <TextView
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/detail_title"
+            android:layout_height="100dp"
+            android:text="Title"
+            android:layout_width="match_parent"
+            android:background="@color/greenie"
+            android:textColor="@color/black"
+            android:textSize="33sp"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/detail_thumbnail"
+                android:layout_width="wrap_content"
+                android:layout_height="175dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+            />
+
+            <LinearLayout
+                android:gravity="left"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="40dp">
+
+                <TextView
+                    android:fontFamily="sans-serif-light"
+                    android:id="@+id/detail_date"
+                    android:text="Date"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:id="@+id/detail_vote"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/grey_700"
+                    android:textSize="16sp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
+                    android:text="Vote/10"/>
+
+                <Button
+                    android:id="@+id/detail_favorite"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/greenie"
+                    android:textSize="15sp"
+                    android:text="@string/mark_favorite"
+                    android:textColor="@color/black"
+                    android:textColorHighlight="#FFFFFF"
+                />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:fontFamily="sans-serif-light"
+            android:id="@+id/detail_overview"
+            android:text="Overview overview overview overview overview overview"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:padding="15dp"/>
+
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/detail_trailers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ListView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/detail_reviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>
