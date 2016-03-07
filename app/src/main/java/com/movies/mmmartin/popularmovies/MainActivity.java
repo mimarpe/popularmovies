@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.facebook.stetho.Stetho;
+import com.facebook.stetho.common.Util;
 import com.movies.mmmartin.popularmovies.sync.PopularMoviesSyncAdapter;
 
 
@@ -17,7 +18,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
 
     private boolean mTwoPane;
-    private String mLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
                                 Stetho.defaultInspectorModulesProvider(this))
                         .build());
 
-        PopularMoviesSyncAdapter.initializeSyncAdapter(this);
     }
 
 
@@ -75,29 +74,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 //                    .replace(R.id.movie_detail_container, fragment, DETAILFRAGMENT_TAG)
 //                    .commit();
 //        } else {
-//            Intent intent = new Intent(this, DetailActivity.class)
-//                    .setData(contentUri);
-//            startActivity(intent);
+            Intent intent = new Intent(this, DetailActivity.class)
+                    .setData(contentUri);
+            startActivity(intent);
 //        }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        String location = Utility.getOrderPreference( this );
-        // update the location in our second pane using the fragment manager
-        if (location != null && !location.equals(mLocation)) {
-            MainActivityFragment ff = (MainActivityFragment)getSupportFragmentManager()
-                    .findFragmentById(R.id.fragment);
-            if ( null != ff ) {
-                ff.onPreferenceChanged();
-            }
-//            DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
-//            if ( null != df ) {
-//                df.onLocationChanged(location);
-//            }
-            mLocation = location;
-        }
-    }
 
 }

@@ -11,8 +11,21 @@
     <string name="pref_order_value" translatable="false">vote_average</string>
     <string name="pref_order_favorite" translatable="false">favorite</string>
 
+    <string name="pref_saved_order_label_key">savedorder</string>
+
     <string name="content_authority" translatable="false">com.movies.mmmartin.popularmovies.app</string>
     <string name="sync_account_type">popularmovies.mmmartin.com</string>
 
-    <string name="api_key">08f23ce3a965adda70feb8e74f04629c</string>
+    <string name="api_key">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</string>
+    <string name="title_activity_detail">DetailActivity</string>
+
+    <string name="mark_favorite">Mark as favorite</string>
+    <string name="unmark_favorite">Unmark as favorite</string>
+
+    <string name="removefavorite">Removed from favorites</string>
+    <string name="addfavorite">Added favorite</string>
+    <string name="problemfavorite">Problem handling as favorite :-(</string>
+
+    <string name="action_share">Share</string>
+
 </resources>

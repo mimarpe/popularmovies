@@ -5,6 +5,7 @@
     <color name="grey">#cccccc</color>
     <color name="grey_700">#646464</color>
     <color name="black">#000000</color>
+    <color name="greenie">#039f8f</color>
 
     <color name="grid_pressed">#1Affffff</color>
     <color name="grid_focused">#80000000</color>

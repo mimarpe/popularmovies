@@ -1,5 +1,6 @@
 package com.movies.mmmartin.popularmovies;
 
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
@@ -24,6 +26,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     private PostersAdapter mGridViewAdapter;
     private int mPosition = GridView.INVALID_POSITION;
     private static final String SELECTED_KEY = "selected_position";
+    private static final String SORT = "SORT";
+    private String mOrder;
 
     private static final String[] MOVIE_PROJECTION = {
             MoviesContract.MovieEntry._ID,
@@ -90,6 +94,21 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
             }
         });
 
+//        // We want to load more data on scroll end
+//        mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+//                    // End has been reached
+//                }
+//            }
+//
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//
+//            }
+//        });
+
         // If there's instance state, mine it for useful information.
         // The end-goal here is that the user never knows that turning their device sideways
         // does crazy lifecycle related things.  It should feel like some stuff stretched out,
@@ -99,6 +118,13 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
             // The gridview probably hasn't even been populated yet.  Actually perform the
             // swapout in onLoadFinished.
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(SORT)) {
+            mOrder = savedInstanceState.getString(SORT);
+        }else {
+            mOrder = Utility.getOrderPreference(getContext());
+            PopularMoviesSyncAdapter.initializeSyncAdapter(getContext());
         }
 
         return rootView;
@@ -117,7 +143,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 MOVIE_PROJECTION,
                 null,
                 null,
-                sortOrder);
+                sortOrder +" limit 50");
     }
 
     @Override
@@ -141,13 +167,41 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         super.onActivityCreated(savedInstanceState);
     }
 
-    void onPreferenceChanged( ) {
+    void onUserOrderChanged( ) {
+        ProgressDialog progress = new ProgressDialog(getContext());
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading posters...");
+        progress.show();
+
         updatePosters();
         getLoaderManager().restartLoader(POSTERS_LOADER, null, this);
+
+        progress.dismiss();
     }
 
     private void updatePosters() {
         PopularMoviesSyncAdapter.syncImmediately(getActivity());
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String order = Utility.getOrderPreference( getContext() );
+
+        if (order != null && !order.equals(mOrder)) {
+            onUserOrderChanged();
+            mOrder = order;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (mPosition != GridView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, mPosition);
+        }
+        outState.putString(SORT, mOrder);
+        super.onSaveInstanceState(outState);
     }
 
 }

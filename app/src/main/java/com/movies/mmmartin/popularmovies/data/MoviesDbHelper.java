@@ -10,7 +10,7 @@ import com.movies.mmmartin.popularmovies.data.MoviesContract.TrailerEntry;
 
 public class MoviesDbHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     static final String DATABASE_NAME = "movies.db";
 
@@ -30,7 +30,7 @@ public class MoviesDbHelper extends SQLiteOpenHelper {
                 MovieEntry.COLUMN_VOTE_AVERAGE + " REAL NOT NULL, " +
                 MovieEntry.COLUMN_POPULARITY + " REAL NOT NULL, " +
                 MovieEntry.COLUMN_FAVORITE + " INTEGER NOT NULL DEFAULT 0," +
-                " UNIQUE (" + MovieEntry.COLUMN_MOVIE_ID +") ON CONFLICT REPLACE);";
+                " UNIQUE (" + MovieEntry.COLUMN_MOVIE_ID +") ON CONFLICT IGNORE);";
 
         final String SQL_CREATE_REVIEW_TABLE = "CREATE TABLE " + ReviewEntry.TABLE_NAME + " (" +
                 ReviewEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
