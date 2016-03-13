@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.facebook.stetho.Stetho;
-import com.facebook.stetho.common.Util;
-import com.movies.mmmartin.popularmovies.sync.PopularMoviesSyncAdapter;
+//import com.facebook.stetho.Stetho;
 
 
 public class MainActivity extends AppCompatActivity implements MainActivityFragment.Callback {
@@ -18,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
 
     private boolean mTwoPane;
+    private int mMovieId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +24,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         setContentView(R.layout.activity_main);
 
         // debug tools
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(
-                                Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(
-                                Stetho.defaultInspectorModulesProvider(this))
-                        .build());
+//        Stetho.initialize(
+//                Stetho.newInitializerBuilder(this)
+//                        .enableDumpapp(
+//                                Stetho.defaultDumperPluginsProvider(this))
+//                        .enableWebKitInspector(
+//                                Stetho.defaultInspectorModulesProvider(this))
+//                        .build());
 
     }
 
@@ -76,8 +75,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
 //        } else {
             Intent intent = new Intent(this, DetailActivity.class)
                     .setData(contentUri);
+            intent.putExtra(DetailActivityFragment.DETAIL_MID, mMovieId);
             startActivity(intent);
 //        }
+    }
+
+    public void setMovieId(int movieId){
+        mMovieId = movieId;
     }
 
 

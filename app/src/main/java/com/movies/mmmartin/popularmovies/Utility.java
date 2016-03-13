@@ -3,6 +3,8 @@ package com.movies.mmmartin.popularmovies;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 
@@ -34,10 +36,21 @@ public class Utility {
 
         String ret = order + " DESC";
 
-        if(order.equals(R.string.pref_order_favorite))
-                ret += ", "+context.getString(R.string.pref_order_popularity)+" DESC";
-
         return ret;
+    }
+
+    public static int getNumberEntriesByMovieId(Context context, Uri uri) {
+        Cursor cursor = context.getContentResolver().query(uri, new String[]{"count(*)"},
+                null, null, null);
+        if (cursor.getCount() == 0) {
+            cursor.close();
+            return 0;
+        } else {
+            cursor.moveToFirst();
+            int result = cursor.getInt(0);
+            cursor.close();
+            return result;
+        }
     }
 
 }

@@ -18,7 +18,9 @@ public class MoviesProvider extends ContentProvider {
     static final int MOVIES         = 100;
     static final int MOVIE_DETAIL   = 101;
     static final int TRAILER        = 200;
+    static final int TRAILER_DETAIL = 201;
     static final int REVIEW         = 300;
+    static final int REVIEW_DETAIL  = 301;
 
     private static final SQLiteQueryBuilder sMovieQueryBuilder;
     private static final SQLiteQueryBuilder sReviewQueryBuilder;
@@ -46,11 +48,11 @@ public class MoviesProvider extends ContentProvider {
                     "." + MoviesContract.ReviewEntry.COLUMN_MOVIE_ID + " = ? ";
 
 
-    private Cursor getMovies(Uri uri, String[] projection, String sortOrder) {
+    private Cursor getMovies(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         return sMovieQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null,
                 null,
                 sortOrder
@@ -83,6 +85,7 @@ public class MoviesProvider extends ContentProvider {
         );
     }
 
+
     private Cursor getReviewsById( Uri uri, String[] projection, String sortOrder) {
         Long idSetting = MoviesContract.MovieEntry.getMovieIdFromUri(uri);
 
@@ -102,8 +105,10 @@ public class MoviesProvider extends ContentProvider {
 
         matcher.addURI(authority, MoviesContract.PATH_MOVIE, MOVIES);
         matcher.addURI(authority, MoviesContract.PATH_MOVIE + "/#", MOVIE_DETAIL);
-        matcher.addURI(authority, MoviesContract.PATH_TRAILER + "/#", TRAILER);
-        matcher.addURI(authority, MoviesContract.PATH_REVIEW + "/#", REVIEW);
+        matcher.addURI(authority, MoviesContract.PATH_TRAILER, TRAILER);
+        matcher.addURI(authority, MoviesContract.PATH_TRAILER + "/#", TRAILER_DETAIL);
+        matcher.addURI(authority, MoviesContract.PATH_REVIEW, REVIEW);
+        matcher.addURI(authority, MoviesContract.PATH_REVIEW + "/#", REVIEW_DETAIL);
 
         return matcher;
     }
@@ -127,6 +132,8 @@ public class MoviesProvider extends ContentProvider {
                 return MoviesContract.MovieEntry.CONTENT_TYPE;
             case TRAILER:
                 return MoviesContract.TrailerEntry.CONTENT_TYPE;
+            case TRAILER_DETAIL:
+                return MoviesContract.TrailerEntry.CONTENT_ITEM_TYPE;
             case REVIEW:
                 return MoviesContract.ReviewEntry.CONTENT_TYPE;
             default:
@@ -148,16 +155,21 @@ public class MoviesProvider extends ContentProvider {
             }
             // "movie"
             case MOVIES: {
-                retCursor = getMovies(uri, projection, sortOrder);
+                retCursor = getMovies(uri, projection, selection, selectionArgs, sortOrder);
                 break;
             }
-            // "review"
-            case REVIEW: {
+            // "review/#"
+            case REVIEW_DETAIL: {
                 retCursor = getReviewsById(uri, projection, sortOrder);
                 break;
             }
             // "trailer"
             case TRAILER: {
+                retCursor = getTrailersById(uri, projection, sortOrder);
+                break;
+            }
+            // "traile/#r"
+            case TRAILER_DETAIL: {
                 retCursor = getTrailersById(uri, projection, sortOrder);
                 break;
             }

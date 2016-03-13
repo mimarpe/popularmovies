@@ -11,7 +11,6 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
@@ -31,7 +30,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     private static final String[] MOVIE_PROJECTION = {
             MoviesContract.MovieEntry._ID,
-//            MoviesContract.MovieEntry.COLUMN_MOVIE_ID,
+            MoviesContract.MovieEntry.COLUMN_MOVIE_ID,
             MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE,
 //            MoviesContract.MovieEntry.COLUMN_OVERVIEW,
 //            MoviesContract.MovieEntry.COLUMN_RELEASE_DATE,
@@ -43,11 +42,11 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     // these indices must match the projection
     static final int INDEX_ID               = 0;
-//    static final int INDEX_MOVIE_ID         = 1;
-    static final int INDEX_ORIGINAL_TITLE   = 1;
+    static final int INDEX_MOVIE_ID         = 1;
+    static final int INDEX_ORIGINAL_TITLE   = 2;
 //    static final int INDEX_OVERVIEW         = 3;
 //    static final int INDEX_RELEASE_DATE     = 4;
-    static final int INDEX_POSTER_PATH      = 2;
+    static final int INDEX_POSTER_PATH      = 3;
 //    static final int INDEX_VOTE_AVERAGE     = 6;
 //    static final int INDEX_POPULARITY       = 7;
 //    static final int INDEX_FAVORITE         = 8;
@@ -60,13 +59,16 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
-     * selections.
+     * selections and other stuff.
      */
     public interface Callback {
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
         public void onItemSelected(Uri movieUri);
+
+        // Passes the movieId to the activity
+        void setMovieId(int movieId);
     }
 
     @Override
@@ -87,6 +89,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
                 if (cursor != null) {
+                    ((Callback) getActivity())
+                            .setMovieId(cursor.getInt(INDEX_MOVIE_ID));
                     ((Callback) getActivity())
                             .onItemSelected(MoviesContract.MovieEntry.buildMovieUri(cursor.getLong(INDEX_ID)));
                 }
@@ -134,16 +138,22 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         // Sort order:  Ascending, according to user setting.
-        String sortOrder = Utility.getOrderLoader(getActivity());
+        String sortOrder = Utility.getOrderLoader(getContext());
 
-        Uri moviePostersUri = MoviesContract.MovieEntry.buildMoviePosterUri();
+        CursorLoader cl =  new CursorLoader(getActivity());
+        cl.setUri(MoviesContract.MovieEntry.buildMoviePosterUri());
+        cl.setProjection(MOVIE_PROJECTION);
 
-        return new CursorLoader(getActivity(),
-                moviePostersUri,
-                MOVIE_PROJECTION,
-                null,
-                null,
-                sortOrder +" limit 50");
+        if(sortOrder.contains(getString(R.string.pref_order_favorite))){
+            sortOrder=getString(R.string.pref_order_popularity)+" DESC";
+            cl.setSelection(MoviesContract.MovieEntry.COLUMN_FAVORITE + " = ?");
+            cl.setSelectionArgs(new String[]{Integer.toString(1)});
+        }
+
+        sortOrder +=" limit 50";
+        cl.setSortOrder(sortOrder);
+
+        return cl;
     }
 
     @Override

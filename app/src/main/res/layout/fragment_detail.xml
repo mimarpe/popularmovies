@@ -13,7 +13,7 @@
         <TextView
             android:fontFamily="sans-serif-condensed"
             android:id="@+id/detail_title"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:text="Title"
             android:layout_width="match_parent"
             android:background="@color/greenie"
@@ -63,7 +63,7 @@
 
                 <Button
                     android:id="@+id/detail_favorite"
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:background="@color/greenie"
                     android:textSize="15sp"
@@ -87,13 +87,15 @@
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/detail_trailers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp" />
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/detail_reviews"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp" />
 
     </LinearLayout>
 </ScrollView>

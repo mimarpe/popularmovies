@@ -7,32 +7,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by mmmartin on 2/7/16.
  */
-public class PostersAdapter extends CursorAdapter {
+public class TrailersAdapter extends CursorAdapter {
     private static final int VIEW_TYPE_COUNT = 1;
 
     public static class ViewHolder {
-        public final ImageView posterView;
-//        public final TextView posterTextView;
+        public final TextView nameView;
+        public final ImageView playView;
 
         public ViewHolder(View view) {
-            posterView = (ImageView) view.findViewById(R.id.grid_item_poster);
+            nameView = (TextView) view.findViewById(R.id.trailer_text);
+            playView = (ImageView) view.findViewById(R.id.trailer_play);
         }
     }
 
-    public PostersAdapter(Context context, Cursor c, int flags) {
+    public TrailersAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         int viewType = getItemViewType(cursor.getPosition());
-        int layoutId = R.layout.grid_item;
+        int layoutId = R.layout.list_trailer_item;
 
         View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
 
@@ -43,12 +44,10 @@ public class PostersAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, final Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-        // Set poster
-        String url = "http://image.tmdb.org/t/p/w185/"+cursor.getString(MainActivityFragment.INDEX_POSTER_PATH);
-        Picasso.with(context).load(url).into(viewHolder.posterView);
+        viewHolder.nameView.setText(cursor.getString(DetailActivityFragment.INDEX_TRAILER_NAME));
     }
 
     @Override
